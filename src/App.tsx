@@ -4,64 +4,19 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { cn } from '@/lib/utils';
 import CustomUpload from '@/components/custom-upload';
 import useIsTop from '@/hooks/useIsTop';
-import { toast } from 'sonner';
 import useSWRMutation from 'swr/mutation';
-
-const API_URL = import.meta.env.VITE_API_URL;
-
-type Response = {
-  hello: string;
-};
-async function uploadFile(
-  url: string,
-  {
-    arg,
-  }: {
-    arg: {
-      file: File;
-    };
-  },
-) {
-  console.log(arg);
-  const { file } = arg;
-  // return Promise.resolve({ hello: 'world' });
-  // throw { detail: 'error' };
-  // return Promise.reject({ detail: 'error' });
-  const formData = new FormData();
-  formData.append('file', file);
-  const res = await fetch(url, {
-    method: 'POST',
-    body: formData,
-  });
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw error;
-  }
-
-  return res.json();
-}
+import { ScrollArea } from '@/components/ui/scroll-area';
+import ScrollResult, { ScrollResultType } from '@/components/scroll-result';
+import { useRef } from 'react';
 
 function App() {
   console.log('render App');
   const isTop = useIsTop();
-
-  const {
-    data: dataApi,
-    error,
-    trigger,
-    isMutating,
-  } = useSWRMutation<Response, { detail: string }, string, { file: File }>(
-    `${API_URL}/uploadfile`,
-    uploadFile,
-  );
+  const resultRef = useRef<ScrollResultType>(null);
 
   const handleUpload = async (file: File) => {
-    try {
-      await trigger({ file });
-      toast.success('上傳成功');
-    } catch (error) {
-      toast.error('上傳失敗');
+    if (resultRef.current) {
+      resultRef.current.triggerUpload(file);
     }
   };
 
@@ -78,27 +33,20 @@ function App() {
             <ModeToggle />
             <button
               onClick={async () => {
-                // try {
-                //   const res = await trigger('YOYO');
-                //   console.log(res);
-                // } catch (error) {
-                //   console.log(error);
-                // }
+                // await handleError();
               }}
             >
               get
             </button>
           </nav>
         </header>
+
         <div className="flex w-full max-w-3xl flex-col items-center justify-center px-16 pb-16 pt-3">
           <h1 className="text-5xl font-extrabold">Vite</h1>
           <CustomUpload onUpload={handleUpload} />
         </div>
-        {dataApi && <pre>{JSON.stringify(dataApi, null, 2)}</pre>}
-        {error && (
-          <pre className="text-red-400">{JSON.stringify(error, null, 2)}</pre>
-        )}
-        {isMutating ? <div>loading...</div> : null}
+
+        <ScrollResult ref={resultRef} />
       </div>
 
       <Toaster />
