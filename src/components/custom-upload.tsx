@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { Upload } from 'lucide-react';
 
 type CustomUploadProps = {
-  onUpload: (url: string) => void;
+  onUpload: (file: File) => void;
   className?: string;
 };
 const CustomUpload = ({ onUpload, className }: CustomUploadProps) => {
@@ -27,8 +27,8 @@ const CustomUpload = ({ onUpload, className }: CustomUploadProps) => {
       }
       if (acceptedFiles.length > 0) {
         console.log(acceptedFiles);
-        onUpload(acceptedFiles[0].name);
         const selectedImage = acceptedFiles[0];
+        onUpload(selectedImage);
       }
     },
     [onUpload],
