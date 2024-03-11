@@ -31,22 +31,17 @@ function App() {
         >
           <nav className="flex w-full max-w-3xl justify-end px-4">
             <ModeToggle />
-            <button
-              onClick={async () => {
-                // await handleError();
-              }}
-            >
-              get
-            </button>
           </nav>
         </header>
 
-        <div className="flex w-full max-w-3xl flex-col items-center justify-center px-16 pb-16 pt-3">
-          <h1 className="text-5xl font-extrabold">Vite</h1>
-          <CustomUpload onUpload={handleUpload} />
-        </div>
+        <main className="flex w-full flex-col gap-4 px-6">
+          <div className="flex w-full max-w-3xl flex-col items-center justify-center">
+            <h1 className="text-5xl font-extrabold">Vite</h1>
+            <CustomUpload onUpload={handleUpload} />
+          </div>
 
-        <ScrollResult ref={resultRef} />
+          <ScrollResult ref={resultRef} />
+        </main>
       </div>
 
       <Toaster />

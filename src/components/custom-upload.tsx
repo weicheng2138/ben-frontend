@@ -72,7 +72,7 @@ const CustomUpload = ({ onUpload, className }: CustomUploadProps) => {
           <span className="text-xs text-gray-400 dark:text-slate-500">
             影片格式：MP4
           </span>
-          <Button className="mt-4 flex gap-4">
+          <Button className="mt-2 flex gap-4">
             <Upload className="h-5 w-5" />
             瀏覽檔案
           </Button>
