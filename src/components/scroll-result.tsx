@@ -1,8 +1,11 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { forwardRef, useImperativeHandle } from 'react';
+import { Fragment, forwardRef, useImperativeHandle } from 'react';
 import useSWRMutation from 'swr/mutation';
 import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 
 export type ScrollResultType = {
   triggerUpload: (file: File) => Promise<void>;
@@ -30,16 +33,16 @@ async function uploadFile(
     body: formData,
   });
 
-  if (res.body) {
-    const reader = res.body.getReader();
-    const chunk = [];
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      chunk.push(value);
-      console.log(chunk);
-    }
-  }
+  // if (res.body) {
+  //   const reader = res.body.getReader();
+  //   const chunk = [];
+  //   while (true) {
+  //     const { done, value } = await reader.read();
+  //     if (done) break;
+  //     chunk.push(value);
+  //     console.log(chunk);
+  //   }
+  // }
 
   if (!res.ok) {
     const error = await res.json();
@@ -63,6 +66,16 @@ const ScrollResult = forwardRef((props, ref) => {
     },
   }));
 
+  const handleDownload = (url: string) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', '');
+    link.setAttribute('target', '_blank');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
   const { data, error, trigger, isMutating } = useSWRMutation<
     Response,
     { detail: string },
@@ -72,13 +85,13 @@ const ScrollResult = forwardRef((props, ref) => {
 
   if (isMutating) {
     return (
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col gap-4">
         {Array.from({ length: 3 }).map((_, i) => (
           <div key={i} className="flex items-center gap-4">
             <Skeleton className="h-12 w-12 rounded-md" />
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-[250px]" />
-              <Skeleton className="h-4 w-[200px]" />
+            <div className="grow space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-5/6" />
             </div>
           </div>
         ))}
@@ -89,27 +102,57 @@ const ScrollResult = forwardRef((props, ref) => {
     return <div className="text-red-500">ERROR</div>;
   }
   return (
-    <ScrollArea className="h-[400px] w-full rounded-md p-4">
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+    <ScrollArea className="h-[40vh] w-full rounded-md pr-4">
       {data && data.length > 0 ? (
         data.map((item, i) => (
-          <div key={i} className="flex items-center gap-4">
-            <video
-              className="h-32 w-48 rounded-md bg-white"
-              src={`${API_URL}/resources/${item.video}`}
-              controls
-            />
-            <div className="space-y-2">
-              <img
-                className="h-32 w-32 rounded-md"
-                src={`${API_URL}/resources/${item.image}`}
-                alt="影片截圖"
-              />
+          <Fragment key={`${item.video}-${i}`}>
+            <div className="flex w-full items-center justify-between gap-4">
+              {/* <video */}
+              {/*   className="h-32 w-48 rounded-md bg-white" */}
+              {/*   src={`${API_URL}/resources/${item.video}`} */}
+              {/*   controls */}
+              {/* /> */}
+              <div className="flex items-center gap-2 py-2">
+                <a href={`${API_URL}/resources/${item.image}`} target="_blank">
+                  <img
+                    className="h-16 w-16 rounded-md object-cover"
+                    src={`${API_URL}/resources/${item.image}`}
+                    alt="影片截圖"
+                  />
+                </a>
+                <section className="flex flex-col gap-1">
+                  <h3 className="text-sm font-semibold">
+                    紅燈右轉
+                    {i % 2 === 0 ? (
+                      <Badge variant="secondary" className="ml-2">
+                        可檢舉
+                      </Badge>
+                    ) : (
+                      <Badge variant="destructive" className="ml-2">
+                        不可檢舉
+                      </Badge>
+                    )}
+                  </h3>
+                  <span className="text-xs">00:03:45 - 00:04:17</span>
+                  <span className="text-xs">50 MB</span>
+                </section>
+              </div>
+              {/* <Badge variant="outline">可檢舉</Badge> */}
+              <Button
+                variant="outline"
+                className=""
+                onClick={() =>
+                  handleDownload(`${API_URL}/resources/${item.video}`)
+                }
+              >
+                下載
+              </Button>
             </div>
-          </div>
+            <Separator />
+          </Fragment>
         ))
       ) : (
-        <div className="text-gray-500">尚未上傳影片</div>
+        <div className="text-xl font-semibold text-gray-500">尚未上傳影片</div>
       )}
     </ScrollArea>
   );

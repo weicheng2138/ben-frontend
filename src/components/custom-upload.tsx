@@ -38,14 +38,13 @@ const CustomUpload = ({
     [onUpload],
   );
 
-  const handleChange = (event: ChangeEvent<ElementRef<'input'>>) => {
-    console.log('handleChange');
-    console.log(event.target.files);
-    if (event.target.files?.length) {
-      // dispatch(setSelectedImage(event.target.files[0]));
-      const selectedImage = event.target.files[0];
-    }
-  };
+  // const handleChange = (event: ChangeEvent<ElementRef<'input'>>) => {
+  //   console.log('handleChange');
+  //   console.log(event.target.files);
+  //   if (event.target.files?.length) {
+  //     const selectedImage = event.target.files[0];
+  //   }
+  // };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -68,16 +67,17 @@ const CustomUpload = ({
         <label
           htmlFor="dropzone-file"
           className={cn(
-            'flex h-[40vh] w-full cursor-pointer flex-col items-center justify-center gap-2',
+            'flex h-[30vh] w-full cursor-pointer flex-col items-center justify-center gap-2',
             'rounded-lg border-2 border-dashed border-gray-500',
             'bg-gray-50 hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800',
             isDragActive ? 'bg-slate-100 dark:bg-slate-800' : '',
+            isUploading ? 'cursor-not-allowed' : '',
           )}
         >
           {isUploading ? (
             <>
               <svg
-                className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+                className="-ml-1 mr-3 h-5 w-5 animate-spin text-slate-500 dark:text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -88,7 +88,7 @@ const CustomUpload = ({
                   cy="12"
                   r="10"
                   stroke="currentColor"
-                  stroke-width="4"
+                  strokeWidth="4"
                 ></circle>
                 <path
                   className="opacity-75"
@@ -110,13 +110,7 @@ const CustomUpload = ({
             </>
           )}
         </label>
-        <Input
-          {...getInputProps()}
-          id="dropzone-file"
-          type="file"
-          className="hidden"
-          onChange={handleChange}
-        />
+        <Input {...getInputProps()} />
       </div>
     </>
   );
