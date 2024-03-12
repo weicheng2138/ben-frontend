@@ -4,19 +4,24 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { cn } from '@/lib/utils';
 import CustomUpload from '@/components/custom-upload';
 import useIsTop from '@/hooks/useIsTop';
-import useSWRMutation from 'swr/mutation';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import ScrollResult, { ScrollResultType } from '@/components/scroll-result';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 function App() {
   console.log('render App');
   const isTop = useIsTop();
   const resultRef = useRef<ScrollResultType>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleUpload = async (file: File) => {
     if (resultRef.current) {
-      resultRef.current.triggerUpload(file);
+      setIsUploading(true);
+      try {
+        await resultRef.current.triggerUpload(file);
+        setIsUploading(false);
+      } catch (error) {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -34,10 +39,10 @@ function App() {
           </nav>
         </header>
 
-        <main className="flex w-full flex-col gap-4 px-6">
+        <main className="flex w-full max-w-3xl flex-col gap-4 px-6 py-4">
           <div className="flex w-full max-w-3xl flex-col items-center justify-center">
-            <h1 className="text-5xl font-extrabold">Vite</h1>
-            <CustomUpload onUpload={handleUpload} />
+            <h1 className="mb-4 text-5xl font-extrabold">Vite</h1>
+            <CustomUpload isUploading={isUploading} onUpload={handleUpload} />
           </div>
 
           <ScrollResult ref={resultRef} />

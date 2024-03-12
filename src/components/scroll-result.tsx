@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export type ScrollResultType = {
-  triggerUpload: (file: File) => void;
+  triggerUpload: (file: File) => Promise<void>;
 };
 const API_URL = import.meta.env.VITE_API_URL;
 type Response = {
@@ -30,6 +30,17 @@ async function uploadFile(
     body: formData,
   });
 
+  if (res.body) {
+    const reader = res.body.getReader();
+    const chunk = [];
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunk.push(value);
+      console.log(chunk);
+    }
+  }
+
   if (!res.ok) {
     const error = await res.json();
     throw error;
@@ -44,8 +55,10 @@ const ScrollResult = forwardRef((props, ref) => {
       try {
         await trigger({ file });
         toast.success('影片處理完成');
+        return Promise.resolve();
       } catch (error) {
         toast.error('上傳失敗');
+        return Promise.reject();
       }
     },
   }));
@@ -77,6 +90,7 @@ const ScrollResult = forwardRef((props, ref) => {
   }
   return (
     <ScrollArea className="h-[400px] w-full rounded-md p-4">
+      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
       {data && data.length > 0 ? (
         data.map((item, i) => (
           <div key={i} className="flex items-center gap-4">
