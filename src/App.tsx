@@ -39,13 +39,26 @@ function App() {
           </nav>
         </header>
 
-        <main className="flex w-full max-w-3xl flex-col gap-4 px-6 py-4">
-          <div className="flex w-full max-w-3xl flex-col items-center justify-center">
-            <h1 className="mb-4 text-5xl font-extrabold">Vite</h1>
-            <CustomUpload isUploading={isUploading} onUpload={handleUpload} />
+        <main className="mt-1 flex w-full max-w-3xl flex-col gap-4 px-6">
+          <h1 className="mb-4 text-center text-5xl font-extrabold">Vite</h1>
+          <div className="flex w-full flex-col gap-4">
+            <section className="flex w-full items-center justify-start gap-2">
+              <h2 className="text-nowrap text-sm font-black">步驟一</h2>
+              <p className="text-sm font-light">
+                請將影片檔案拖曳至虛線方框內，或是點選「上傳影片檔案」。
+              </p>
+            </section>
+            <CustomUpload
+              isUploading={isUploading}
+              onUpload={handleUpload}
+              className="h-[30vh]"
+            />
           </div>
-
-          <ScrollResult ref={resultRef} />
+          <section className="mt-4 flex w-full items-center justify-start gap-2">
+            <h2 className="text-nowrap text-sm font-black">步驟二</h2>
+            <p className="text-sm font-light">下載影片。</p>
+          </section>
+          <ScrollResult className="h-[30vh]" ref={resultRef} />
         </main>
       </div>
 

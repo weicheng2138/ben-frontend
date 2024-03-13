@@ -62,16 +62,17 @@ const CustomUpload = ({
     <>
       <div
         {...getRootProps()}
-        className={cn('flex w-full items-center justify-center', className)}
+        className={cn('flex w-full items-center justify-center')}
       >
         <label
           htmlFor="dropzone-file"
           className={cn(
-            'flex h-[30vh] w-full cursor-pointer flex-col items-center justify-center gap-2',
+            'flex w-full cursor-pointer flex-col items-center justify-center gap-2 py-4',
             'rounded-lg border-2 border-dashed border-gray-500',
             'bg-gray-50 hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800',
             isDragActive ? 'bg-slate-100 dark:bg-slate-800' : '',
             isUploading ? 'cursor-not-allowed' : '',
+            className,
           )}
         >
           {isUploading ? (
