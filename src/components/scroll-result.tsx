@@ -67,13 +67,20 @@ const ScrollResult = forwardRef((props, ref) => {
   }));
 
   const handleDownload = (url: string) => {
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', '');
-    link.setAttribute('target', '_blank');
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+    fetch(url)
+      .then((resp) => resp.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.style.display = 'none';
+        link.href = url;
+        link.setAttribute('download', '');
+        document.body.appendChild(link);
+        link.click();
+        window.URL.revokeObjectURL(url);
+        link.remove();
+      })
+      .catch(() => toast.error('下載失敗'));
   };
 
   const { data, error, trigger, isMutating } = useSWRMutation<
