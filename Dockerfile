@@ -10,10 +10,12 @@ WORKDIR /code
 COPY package.json .
 COPY pnpm-lock.yaml .
 
-RUN npm install -g pnpm && pnpm install
+RUN npm install -g pnpm && pnpm install && npm install serve -g
 COPY . .
 
 RUN pnpm build
+EXPOSE 8082
+CMD ["serve", "-s", "dist", "-l", "8082"]
 
 
 # Using Nginx for serving the static files
