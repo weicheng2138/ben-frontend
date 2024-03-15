@@ -17,9 +17,9 @@ RUN pnpm build
 
 
 # Using Nginx for serving the static files
-FROM nginx
+FROM nginx AS release
 
 COPY ./dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 8082
