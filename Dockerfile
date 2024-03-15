@@ -2,10 +2,10 @@
 FROM node:18-alpine AS build
 
 WORKDIR /code
-# Define build arguments for environment variables
-ARG VITE_API_URL
-# Set environment variables during the build process
-ENV VITE_API_URL=$VITE_API_URL
+# # Define build arguments for environment variables
+# ARG VITE_API_URL
+# # Set environment variables during the build process
+# ENV VITE_API_URL=$VITE_API_URL
 
 COPY package.json .
 COPY pnpm-lock.yaml .
