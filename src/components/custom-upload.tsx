@@ -63,8 +63,8 @@ const CustomUpload = ({
     onDrop,
     disabled: isUploading,
     accept: {
-      'video/mp4': ['.mp4'],
-      'video/quicktime': ['.mov'],
+      // 'video/mp4': ['.mp4'],
+      // 'video/quicktime': ['.mov'],
       // 'video/x-matroska': ['.mkv'],
       // 'video/x-ms-wmv': ['.wmv'],
       // 'video/x-msvideo': ['.avi'],
