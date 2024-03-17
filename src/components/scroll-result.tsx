@@ -65,10 +65,14 @@ const ScrollResult = forwardRef(
       async triggerUpload(file: File) {
         try {
           await trigger({ file });
-          toast.success('影片處理完成');
+          toast.success('影片處理完成', {
+            position: 'top-left',
+          });
           return Promise.resolve();
         } catch (error) {
-          toast.error('上傳失敗');
+          toast.error('上傳失敗', {
+            position: 'top-left',
+          });
           return Promise.reject();
         }
       },

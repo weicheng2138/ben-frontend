@@ -51,14 +51,14 @@ function App() {
             <CustomUpload
               isUploading={isUploading}
               onUpload={handleUpload}
-              className="h-[30vh]"
+              className="h-[30dvh]"
             />
           </div>
           <section className="mt-4 flex w-full items-center justify-start gap-2">
             <h2 className="text-nowrap text-sm font-black">步驟二</h2>
             <p className="text-sm font-light">下載影片。</p>
           </section>
-          <ScrollResult className="h-[30vh]" ref={resultRef} />
+          <ScrollResult className="h-[30dvh]" ref={resultRef} />
         </main>
       </div>
 
