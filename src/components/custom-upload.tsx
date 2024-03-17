@@ -25,12 +25,17 @@ const CustomUpload = ({
     async (acceptedFiles: File[]) => {
       if (acceptedFiles.length === 0) {
         toast.error('檔案格式不符!', {
-          description: `這是 ${'s'}，目前支援 MP4 格式的影片檔案`,
+          closeButton: true,
+          description: `目前支援 MP4 與 MOV 格式的影片檔案`,
+          position: 'top-left',
         });
         return;
       }
       if (acceptedFiles.length > 0) {
-        if (acceptedFiles[0].type !== 'video/mp4') {
+        if (
+          acceptedFiles[0].type !== 'video/mp4' &&
+          acceptedFiles[0].type !== 'video/quicktime'
+        ) {
           toast.warning('檔案格式為：', {
             closeButton: true,
             description: `這是 ${acceptedFiles[0].type}，目前支援 MP4 格式的影片檔案`,
@@ -38,7 +43,7 @@ const CustomUpload = ({
           });
           return;
         }
-        console.log(acceptedFiles);
+        // console.log(acceptedFiles);
         const selectedImage = acceptedFiles[0];
         onUpload(selectedImage);
       }
@@ -58,8 +63,8 @@ const CustomUpload = ({
     onDrop,
     disabled: isUploading,
     accept: {
-      // 'video/mp4': ['.mp4'],
-      // 'video/quicktime': ['.mov'],
+      'video/mp4': ['.mp4'],
+      'video/quicktime': ['.mov'],
       // 'video/x-matroska': ['.mkv'],
       // 'video/x-ms-wmv': ['.wmv'],
       // 'video/x-msvideo': ['.avi'],
