@@ -55,7 +55,7 @@ function App() {
             className="h-[30svh]"
           />
           <section className="mt-4 flex w-full items-center justify-start gap-2">
-            <h2 className="text-nowrap text-sm font-black">步驟二</h2>
+            <h2 className="break-keep text-sm font-black">步驟二</h2>
             <p className="text-sm font-light">下載影片。</p>
           </section>
           <ScrollResult className="h-[30svh]" ref={resultRef} />

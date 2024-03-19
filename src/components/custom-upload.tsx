@@ -38,7 +38,7 @@ const CustomUpload = ({
         ) {
           toast.warning('檔案格式為：', {
             closeButton: true,
-            description: `這是 ${acceptedFiles[0].type}，目前支援 MP4 格式的影片檔案`,
+            description: `這是 ${acceptedFiles[0].type}，目前支援 MP4 與 MOV 格式的影片檔案`,
             position: 'top-left',
           });
           return;
@@ -63,8 +63,8 @@ const CustomUpload = ({
     onDrop,
     disabled: isUploading,
     accept: {
-      // 'video/mp4': ['.mp4'],
-      // 'video/quicktime': ['.mov'],
+      'video/mp4': ['.mp4'],
+      'video/quicktime': ['.mov'],
       // 'video/x-matroska': ['.mkv'],
       // 'video/x-ms-wmv': ['.wmv'],
       // 'video/x-msvideo': ['.avi'],
@@ -115,7 +115,7 @@ const CustomUpload = ({
             <>
               <h4 className="text-xl">拖放影片或瀏覽</h4>
               <span className="text-xs text-gray-400 dark:text-slate-500">
-                影片格式：MP4
+                影片格式：MP4、MOV
               </span>
               <Button className="mt-2 flex gap-4">
                 <Upload className="h-5 w-5" />
