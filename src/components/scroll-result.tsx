@@ -121,11 +121,11 @@ const ScrollResult = forwardRef(
       return <div className="text-red-500">ERROR</div>;
     }
     return (
-      <ScrollArea className={(cn('flex w-full justify-center'), className)}>
+      <ScrollArea className={cn('flex w-full justify-center pr-4', className)}>
         {data && data.length > 0 ? (
           data.map((item, i) => (
             <Fragment key={`${item.video}-${i}`}>
-              <div className="flex w-full items-center justify-between gap-4 pr-4">
+              <div className="flex w-full items-center justify-between gap-4">
                 {/* <video */}
                 {/*   className="h-32 w-48 rounded-md bg-white" */}
                 {/*   src={`${API_URL}/resources/${item.video}`} */}
