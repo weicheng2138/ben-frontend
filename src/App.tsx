@@ -44,7 +44,7 @@ function App() {
             Vite
           </h1>
           <section className="flex w-full items-center justify-start gap-2">
-            <h2 className="text-nowrap text-sm font-black">步驟一</h2>
+            <h2 className="break-keep text-sm font-black">步驟一</h2>
             <p className="text-sm font-light">
               請將影片檔案拖曳至虛線方框內，或是點選「上傳影片檔案」。
             </p>
