@@ -30,7 +30,7 @@ function App() {
       <div className="h-svhh flex w-full flex-col items-center">
         <header
           className={cn(
-            'sticky top-0 flex h-16 w-full items-center justify-center backdrop-blur',
+            'sticky top-0 flex h-14 w-full items-center justify-center backdrop-blur md:h-16',
             !isTop && 'border-b border-zinc-200 dark:border-zinc-800',
           )}
         >
