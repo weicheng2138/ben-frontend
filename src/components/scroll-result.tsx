@@ -53,6 +53,23 @@ async function uploadFile(
   return res.json();
 }
 
+const fetchMe = (url: string) => {
+  fetch(url, {
+    method: 'GET',
+    credentials: 'include',
+  }).then((res) => res.json());
+};
+const fetcher = (url: string) => {
+  const formData = new FormData();
+  formData.append('username', 'johndoe');
+  formData.append('password', 'yoyodiy');
+  formData.append('grant_type', 'password');
+  fetch(url, {
+    method: 'POST',
+    body: formData,
+  }).then((res) => res.json());
+};
+
 const ScrollResult = forwardRef(
   (
     props: {
@@ -122,6 +139,8 @@ const ScrollResult = forwardRef(
     }
     return (
       <ScrollArea className={cn('flex w-full justify-center pr-4', className)}>
+        <Button onClick={() => fetcher(`${API_URL}/token`)}>Login</Button>
+        <Button onClick={() => fetchMe(`${API_URL}/users/me`)}>Me</Button>
         {data && data.length > 0 ? (
           data.map((item, i) => (
             <Fragment key={`${item.video}-${i}`}>
